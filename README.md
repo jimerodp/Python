@@ -1,49 +1,99 @@
-<div align="center">
-<!-- Title: -->
-  <a href="https://github.com/TheAlgorithms/">
-    <img src="https://raw.githubusercontent.com/TheAlgorithms/website/1cd824df116b27029f17c2d1b42d81731f28a920/public/logo.svg" height="100">
-  </a>
-  <h1><a href="https://github.com/TheAlgorithms/">The Algorithms</a> - Python</h1>
-<!-- Labels: -->
-  <!-- First row: -->
-  <a href="https://gitpod.io/#https://github.com/TheAlgorithms/Python">
-    <img src="https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod&style=flat-square" height="20" alt="Gitpod Ready-to-Code">
-  </a>
-  <a href="https://github.com/TheAlgorithms/Python/blob/master/CONTRIBUTING.md">
-    <img src="https://img.shields.io/static/v1.svg?label=Contributions&message=Welcome&color=0059b3&style=flat-square" height="20" alt="Contributions Welcome">
-  </a>
-  <img src="https://img.shields.io/github/repo-size/TheAlgorithms/Python.svg?label=Repo%20size&style=flat-square" height="20">
-  <a href="https://the-algorithms.com/discord">
-    <img src="https://img.shields.io/discord/808045925556682782.svg?logo=discord&colorB=7289DA&style=flat-square" height="20" alt="Discord chat">
-  </a>
-  <a href="https://gitter.im/TheAlgorithms/community">
-    <img src="https://img.shields.io/badge/Chat-Gitter-ff69b4.svg?label=Chat&logo=gitter&style=flat-square" height="20" alt="Gitter chat">
-  </a>
-  <!-- Second row: -->
-  <br>
-  <a href="https://github.com/TheAlgorithms/Python/actions">
-    <img src="https://img.shields.io/github/actions/workflow/status/TheAlgorithms/Python/build.yml?branch=master&label=CI&logo=github&style=flat-square" height="20" alt="GitHub Workflow Status">
-  </a>
-  <a href="https://github.com/pre-commit/pre-commit">
-    <img src="https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white&style=flat-square" height="20" alt="pre-commit">
-  </a>
-  <a href="https://github.com/psf/black">
-    <img src="https://img.shields.io/static/v1?label=code%20style&message=black&color=black&style=flat-square" height="20" alt="code style: black">
-  </a>
-<!-- Short description: -->
-  <h3>All algorithms implemented in Python - for education</h3>
-</div>
+# Optimized Search Algorithms
 
-Implementations are for learning purposes only. They may be less efficient than the implementations in the Python standard library. Use them at your discretion.
+This branch (`feature/improve-functionality`) introduces several key optimizations to the search algorithms, particularly focusing on binary search and its variants. The improvements aim to enhance both performance and code quality.
 
-## Getting Started
+## Key Optimizations
 
-Read through our [Contribution Guidelines](CONTRIBUTING.md) before you contribute.
+### Memory Efficiency
+- Reduced memory overhead by eliminating unnecessary variable allocations
+- Implemented in-place operations where possible
+- Optimized variable scope to improve garbage collection
 
-## Community Channels
+### Performance Improvements
 
-We are on [Discord](https://the-algorithms.com/discord) and [Gitter](https://gitter.im/TheAlgorithms/community)! Community channels are a great way for you to ask questions and get help. Please join us!
+#### Binary Search
+- Used bit shifting (`>>`) for faster division operations (`mid = left + ((right - left) >> 1)`)
+- Minimized comparisons in the main loop
+- Added early termination for common cases
+- Implemented integer overflow protection
 
-## List of Algorithms
+#### Binary Search with Bounds
+- Added custom bounds support for targeted searches
+- Optimized boundary checks
+- Implemented the same bit-shifting optimizations as the basic binary search
 
-See our [directory](DIRECTORY.md) for easier navigation and a better overview of the project.
+#### Exponential Search
+- Optimized initial bound selection
+- Used bit shifting for faster power-of-2 calculations
+- Reduced the number of comparisons in the probing phase
+- Integrated with the optimized binary search for the final phase
+
+#### Interpolation Search
+- Improved position estimation formula
+- Added protection against division by zero
+- Optimized for uniformly distributed data
+- Added bounds checking to prevent index out of range errors
+
+### Code Quality Improvements
+
+#### Type Safety
+- Added comprehensive type hints
+- Implemented TypeVar for generic type support
+- Added runtime type checking where necessary
+
+#### Documentation
+- Added detailed docstrings with complexity analysis
+- Included usage examples
+- Added parameter descriptions
+- Documented edge cases and limitations
+
+#### Testing
+- Added comprehensive unit tests
+- Included performance benchmarks
+- Added edge case testing
+- Implemented type compatibility tests
+
+## Performance Benchmarks
+
+The optimized implementations show significant improvements:
+
+- Binary Search: O(log n) with reduced constant factors
+- Exponential Search: O(log i) where i is the position of the element
+- Interpolation Search: O(log log n) for uniformly distributed data
+
+## Usage
+
+```python
+from searches.binary_search import (
+    binary_search,
+    binary_search_with_bounds,
+    exponential_search,
+    interpolation_search
+)
+
+# Basic binary search
+result = binary_search([1, 2, 3, 4, 5], 3)  # Returns 2
+
+# Binary search with custom bounds
+result = binary_search_with_bounds([1, 2, 3, 4, 5], 3, left=1, right=3)
+
+# Exponential search (good for unbounded arrays)
+result = exponential_search([1, 2, 3, 4, 5], 3)
+
+# Interpolation search (optimal for uniform distributions)
+result = interpolation_search([1.0, 2.0, 3.0, 4.0, 5.0], 3.0)
+```
+
+## Future Improvements
+- Implement parallel search for large datasets
+- Add adaptive search strategy selection based on input characteristics
+- Optimize memory usage further for large arrays
+- Add support for custom comparator functions
+
+## Running Tests
+```bash
+python -m unittest tests/test_binary_search.py
+```
+
+## Contributing
+Feel free to submit issues and enhancement requests!
